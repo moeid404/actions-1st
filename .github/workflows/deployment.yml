@@ -1,0 +1,53 @@
+name: 1st project
+on: push
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get code
+              uses: actions/checkout@v3
+            - name: Install NodedJS
+              uses: actions/setup-node@v3
+              with: 
+                node-version: 18
+            - name: install dependencies
+              run: npm ci
+            - name: run lint
+              run: npm lint
+    test:
+        needs: lint
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get code
+              uses: actions/checkout@v3
+
+            - name: Install NodedJS
+              uses: actions/setup-node@v3
+              with: 
+                node-version: 18
+
+            - name: install dependencies
+              run: npm ci
+
+            - name: run test
+              run: npm run test
+    deploy:
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get code
+              uses: actions/checkout@v3
+
+            - name: Install NodedJS
+              uses: actions/setup-node@v3
+              with: 
+                node-version: 18
+
+            - name: install dependencies
+              run: npm ci
+
+            - name: Build project
+              run: npm run build
+            
+            - name: Deloy
+              run: echo "deploying ... "
